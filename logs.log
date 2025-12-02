@@ -1,0 +1,39 @@
+2025-12-02 02:29:15,250:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 02:29:43,009:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 02:29:43,410:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+
+2025-12-02 03:44:53,353:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 03:44:53,692:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+
+2025-12-02 03:46:45,810:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 03:46:46,061:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+
+2025-12-02 04:25:07,867:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 04:25:08,085:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+
+2025-12-02 04:29:32,610:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 04:29:32,822:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+
+2025-12-02 04:40:02,873:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:137: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10,6))
+
+2025-12-02 04:40:03,082:WARNING:C:\Users\paulo\OneDrive\Documentos\Faculdade\Programa do PR\Quarto Semestre\Calculo\ProjetoCalc\projetoDeCalculo\utils.py:174: UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.figure(figsize=(10, 6))
+

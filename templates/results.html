@@ -3,41 +3,266 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Resultados — Modelo 1</title>
+    <title>Resultados — Otimização Agrícola</title>
     <link rel="stylesheet" href="/static/style.css">
   </head>
   <body>
     <div class="container">
-      <h1>Resultados</h1>
+      <h1>📊 Resultados da Análise de Otimização</h1>
 
-      <p>Área A = {{ A }} ha — Theta = {{ theta }}</p>
+      <!-- Parâmetros de Entrada -->
+      <div class="section">
+        <h2>🔧 Parâmetros Utilizados</h2>
+        <p><strong>Área Disponível:</strong> {{ A }} hectares</p>
+        <p><strong>Theta (θ):</strong> {{ theta }} (coeficiente de rendimentos decrescentes)</p>
+        <p><strong>Modelo:</strong> L(x) = ax - bx² onde b = θ × a</p>
+      </div>
 
-      <h2>Lucros estimados</h2>
-      <ul>
-        {% for k,v in profits.items() %}
-          <li><strong>{{ k }}</strong>: R$ {{ "%.2f"|format(v) }}</li>
-        {% endfor %}
-      </ul>
+      <!-- Recomendação Principal -->
+      <div class="highlight-box">
+        <h2>🏆 RECOMENDAÇÃO: Melhor Cultura para {{ A }} hectares</h2>
+        <p class="best-culture">{{ best }}</p>
+        <p class="best-profit">Lucro Estimado: R$ {{ "%.2f"|format(best_profit) }}</p>
+      </div>
 
-      <h3>Melhor cultura: {{ best }} (Lucro: R$ {{ "%.2f"|format(best_profit) }})</h3>
+      <!-- Análise Matemática Completa -->
+      <div class="section">
+        <h2>📐 Análise Matemática (Derivadas)</h2>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Cultura</th>
+              <th>Ponto Ótimo<br>(x*)</th>
+              <th>Lucro Ótimo<br>(L(x*))</th>
+              <th>L''(x*)</th>
+              <th>Classificação</th>
+              <th>Lucro em A={{ A }}ha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for culture in optimization_results %}
+            <tr class="{% if culture == best %}highlight{% endif %}">
+              <td><strong>{{ culture }}</strong></td>
+              <td>{{ "%.2f"|format(optimization_results[culture]['x_otimo']) }} ha</td>
+              <td>R$ {{ "%.2f"|format(optimization_results[culture]['lucro_otimo']) }}</td>
+              <td>{{ "%.4f"|format(optimization_results[culture]['segunda_derivada']) }}</td>
+              <td>
+                {% if optimization_results[culture]['segunda_derivada'] < 0 %}
+                <span style="color: green;">✓ MÁXIMO</span>
+                {% else %}
+                <span style="color: red;">✗ MÍNIMO</span>
+                {% endif %}
+              </td>
+              <td>R$ {{ "%.2f"|format(profits[culture]) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 
-      <img src="/{{ plot_path }}" style="max-width:700px;">
+        <div class="math-explanation">
+          <h3>🔬 Como Chegamos Neste Resultado:</h3>
+          <p><strong>1. Função Objetivo:</strong> L(x) = ax - bx²</p>
+          <p><strong>2. Primeira Derivada:</strong> L'(x) = a - 2bx</p>
+          <p><strong>3. Ponto Crítico (L'(x) = 0):</strong> x* = a/(2b)</p>
+          <p><strong>4. Segunda Derivada:</strong> L''(x) = -2b &lt; 0 ⟹ <strong>MÁXIMO</strong></p>
+          <p><strong>5. Conclusão:</strong> Para cada cultura, calculamos x* (área ótima) e L(x*) (lucro máximo possível)</p>
+        </div>
+      </div>
 
-      <h2>Cenários recentes</h2>
-      <table>
-        <tr><th>ID</th><th>Data</th><th>Área</th><th>Theta</th><th>Melhor</th></tr>
-        {% for s in scenarios %}
-          <tr>
-            <td>{{ s.id }}</td>
-            <td>{{ s.created_at }}</td>
-            <td>{{ s.area }}</td>
-            <td>{{ s.theta }}</td>
-            <td>{{ s.best }}</td>
-          </tr>
-        {% endfor %}
-      </table>
+      <!-- Comparação Visual -->
+      <div class="section">
+        <h2>📊 Comparação de Lucros em A = {{ A }} ha</h2>
+        <img src="/{{ plot_path }}" alt="Gráfico Comparativo" style="max-width: 100%; height: auto;">
+      </div>
 
-      <p><a href="/">Voltar</a></p>
+      <!-- Gráfico de Otimização -->
+      <div class="section">
+        <h2>📈 Análise de Otimização - {{ best }}</h2>
+        <p>O gráfico abaixo mostra a função lucro L(x) para <strong>{{ best }}</strong>, 
+        destacando o ponto ótimo x* e o lucro na restrição de área A = {{ A }} ha.</p>
+        <img src="/{{ opt_plot_path }}" alt="Gráfico de Otimização" style="max-width: 100%; height: auto;">
+      </div>
+
+      <!-- Análise com SymPy -->
+      <div class="section">
+        <h2>🧮 Análise Simbólica (SymPy)</h2>
+        <details>
+          <summary><strong>Clique para ver análise detalhada</strong></summary>
+          {% for culture, analysis in sympy_analysis.items() %}
+          <div class="sympy-section">
+            <h3>{{ culture }}</h3>
+            <p><strong>Função:</strong> {{ analysis['funcao'] }}</p>
+            <p><strong>Primeira Derivada:</strong> {{ analysis['primeira_derivada'] }}</p>
+            <p><strong>Segunda Derivada:</strong> {{ analysis['segunda_derivada'] }}</p>
+            <p><strong>Pontos Críticos:</strong> 
+            {% for pc in analysis['pontos_criticos'] %}
+              {{ "%.2f"|format(pc) }} ha
+            {% endfor %}
+            </p>
+            {% for class_info in analysis['classificacao'] %}
+            <p><strong>Classificação:</strong> {{ class_info['tipo'] }} em x = {{ "%.2f"|format(class_info['ponto']) }} ha</p>
+            <p><strong>Lucro no Ponto Crítico:</strong> R$ {{ "%.2f"|format(class_info['lucro']) }}</p>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </details>
+      </div>
+
+      <!-- Tabela Comparativa Detalhada -->
+      <div class="section">
+        <h2>💰 Comparação Detalhada</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Cultura</th>
+              <th>Parâmetro a</th>
+              <th>Parâmetro b</th>
+              <th>Lucro em A={{ A }}ha</th>
+              <th>% do Melhor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for culture, profit in profits.items() %}
+            <tr class="{% if culture == best %}highlight{% endif %}">
+              <td><strong>{{ culture }}</strong></td>
+              <td>{{ "%.2f"|format(params[culture]['a']) }}</td>
+              <td>{{ "%.4f"|format(params[culture]['b']) }}</td>
+              <td>R$ {{ "%.2f"|format(profit) }}</td>
+              <td>{{ "%.1f"|format((profit / best_profit) * 100) }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Histórico de Cenários -->
+      <div class="section">
+        <h2>📜 Histórico de Simulações</h2>
+        {% if scenarios %}
+        <table>
+          <thead>
+            <tr>
+              <th>Data/Hora</th>
+              <th>Área (ha)</th>
+              <th>Theta</th>
+              <th>Melhor Cultura</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sc in scenarios[:10] %}
+            <tr>
+              <td>{{ sc.created_at }}</td>
+              <td>{{ sc.area }}</td>
+              <td>{{ sc.theta }}</td>
+              <td>{{ sc.best }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>Nenhum cenário anterior registrado.</p>
+        {% endif %}
+      </div>
+
+      <!-- Ações -->
+      <div class="actions">
+        <a href="/" class="button">🔄 Nova Simulação</a>
+        <a href="/persona" class="button">👤 Ver Persona</a>
+      </div>
+
+      <hr>
+
+      <!-- Explicação Final -->
+      <div class="explanation">
+        <h3>📚 Fundamentação Matemática</h3>
+        <p>Este sistema utiliza <strong>cálculo diferencial</strong> para encontrar a alocação ótima de área agrícola.</p>
+        
+        <p><strong>Modelo Adotado:</strong></p>
+        <p>L(x) = ax - bx²</p>
+        <p>Onde:</p>
+        <ul>
+          <li><strong>L(x)</strong> = Lucro esperado em função da área x (hectares)</li>
+          <li><strong>a</strong> = Lucro por hectare (extraído do artigo científico)</li>
+          <li><strong>b</strong> = θ × a (coeficiente de rendimentos decrescentes)</li>
+        </ul>
+        
+        <p><strong>Derivação do Ponto Ótimo:</strong></p>
+        <ol>
+          <li>Primeira derivada: L'(x) = a - 2bx</li>
+          <li>Condição de máximo: L'(x) = 0 ⟹ x* = a/(2b)</li>
+          <li>Segunda derivada: L''(x) = -2b &lt; 0 (confirma máximo)</li>
+        </ol>
+        
+        <p><strong>Interpretação:</strong></p>
+        <p>A cultura <strong>{{ best }}</strong> maximiza o lucro para a área de {{ A }} hectares porque:</p>
+        <ul>
+          <li>Seu lucro base por hectare (a = {{ "%.2f"|format(params[best]['a']) }}) é elevado</li>
+          <li>O efeito de rendimentos decrescentes (b = {{ "%.4f"|format(params[best]['b']) }}) é moderado</li>
+          <li>A combinação resulta no maior L({{ A }}) = R$ {{ "%.2f"|format(best_profit) }}</li>
+        </ul>
+        
+        <p><strong>Fonte dos Dados:</strong> Silva et al. (2024) - "Otimização da produtividade agrícola e altos lucros em pequenas propriedades"</p>
+      </div>
     </div>
+
+    <style>
+      .section {
+        margin: 30px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+      
+      .highlight-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 20px 0;
+      }
+      
+      .best-culture {
+        font-size: 2.5em;
+        margin: 15px 0;
+        font-weight: bold;
+      }
+      
+      .best-profit {
+        font-size: 1.5em;
+      }
+      
+      .math-explanation {
+        background: #e8f4f8;
+        padding: 15px;
+        border-left: 4px solid #667eea;
+        margin-top: 20px;
+      }
+      
+      .sympy-section {
+        background: white;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+      
+      details {
+        cursor: pointer;
+      }
+      
+      summary {
+        padding: 10px;
+        background: #667eea;
+        color: white;
+        border-radius: 5px;
+        user-select: none;
+      }
+      
+      summary:hover {
+        background: #5568d3;
+      }
+    </style>
   </body>
 </html>
