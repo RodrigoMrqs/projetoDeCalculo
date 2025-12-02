@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projeto — Modelo 1 (Quadrático)</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Modelo 1 — Lucro por Cultura (Quadrático)</h1>
+      <p>Dados padrão extraídos do artigo (lucro por ha):</p>
+      <ul>
+        {% for k,v in data.items() %}
+          <li><strong>{{ k }}</strong>: R$ {{ v.P if v.P is defined else v['P'] }}</li>
+        {% endfor %}
+      </ul>
+
+      <form action="/run" method="post">
+        <label>Área total disponível (ha):
+          <input type="number" name="area" value="5" step="0.1">
+        </label><br>
+
+        <label>Theta (b = theta * P):
+          <input type="number" name="theta" value="0.05" step="0.01" min="0.001">
+        </label><br>
+
+        <button type="submit">Rodar modelo</button>
+      </form>
+
+      <hr>
+      <p>Este protótipo aplica o modelo L(x)=a x - b x² e calcula L(A) para cada cultura.</p>
+    </div>
+  </body>
+</html>

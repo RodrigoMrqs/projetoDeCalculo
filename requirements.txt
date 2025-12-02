@@ -1,0 +1,9 @@
+Flask
+pandas
+matplotlib
+seaborn
+statsmodels
+scikit-learn
+pycaret
+sqlalchemy
+pillow

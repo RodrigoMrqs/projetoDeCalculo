@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resultados — Modelo 1</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Resultados</h1>
+
+      <p>Área A = {{ A }} ha — Theta = {{ theta }}</p>
+
+      <h2>Lucros estimados</h2>
+      <ul>
+        {% for k,v in profits.items() %}
+          <li><strong>{{ k }}</strong>: R$ {{ "%.2f"|format(v) }}</li>
+        {% endfor %}
+      </ul>
+
+      <h3>Melhor cultura: {{ best }} (Lucro: R$ {{ "%.2f"|format(best_profit) }})</h3>
+
+      <img src="/{{ plot_path }}" style="max-width:700px;">
+
+      <h2>Cenários recentes</h2>
+      <table>
+        <tr><th>ID</th><th>Data</th><th>Área</th><th>Theta</th><th>Melhor</th></tr>
+        {% for s in scenarios %}
+          <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.created_at }}</td>
+            <td>{{ s.area }}</td>
+            <td>{{ s.theta }}</td>
+            <td>{{ s.best }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+
+      <p><a href="/">Voltar</a></p>
+    </div>
+  </body>
+</html>
