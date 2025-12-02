@@ -8,6 +8,11 @@ import io
 import statsmodels.api as sm
 from sklearn.preprocessing import StandardScaler
 
+try:
+    from pycaret.regression import setup as pyc_setup, compare_models
+    PYC_AVAILABLE = True
+except Exception:
+    PYC_AVAILABLE = False
 
 # Dados extraídos do artigo
 DEFAULT_DATA = {
@@ -56,4 +61,7 @@ def statsmodels_demo():
     model = sm.OLS(y, X).fit()
     return model.summary()
 
-
+def pycaret_demo(df, target):
+    s = pyc_setup(df, target=target, silent=True, html=False)
+    best = compare_models()
+    return best
